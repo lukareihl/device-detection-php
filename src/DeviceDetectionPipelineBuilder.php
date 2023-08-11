@@ -21,13 +21,10 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-
-
 namespace fiftyone\pipeline\devicedetection;
 
 use fiftyone\pipeline\core\PipelineBuilder;
 use fiftyone\pipeline\cloudrequestengine\CloudRequestEngine;
-use fiftyone\pipeline\devicedetection\DeviceDetectionCloud;
 
 /**
 * Extension of pipelineBuilder class that allows for the quick generation of a device detection pipeline.
@@ -35,29 +32,44 @@ use fiftyone\pipeline\devicedetection\DeviceDetectionCloud;
 */
 class DeviceDetectionPipelineBuilder extends PipelineBuilder
 {
+    /**
+     * @var array
+     */
     public $restrictedProperties;
+
+    /**
+     * @var \fiftyone\pipeline\engines\DataKeyedCache
+     */
     public $cache;
+
+    /**
+     * @var string
+     */
     public $resourceKey;
+
+    /**
+     * @var string
+     */
     public $licenseKey;
 
     /**
-     * @param {Array} options
-     * @param {String} options.resourceKey
-     * @param {String} options.cloudEndPoint custom endpoint for the cloud service
-     * @param {Array} options.restrictedProperties (list of properties to restrict the results to)
-     * @param {String} options.cloudRequestOrigin value to use for the 
-     * Origin header when sending requests to cloud.
-    **/
+     * Settings:
+     *  - 'resourceKey'
+     *  - 'cloudEndPoint': custom endpoint for the cloud service
+     *  - 'restrictedProperties': list of properties to restrict the results to
+     *  - 'cloudRequestOrigin': Origin header value when sending requests to cloud
+     *
+     * @param array<string, mixed> $settings
+     */
     public function __construct($settings)
     {
         parent::__construct($settings);
 
         // Translate the cloud options with different names
-        if(array_key_exists("cloudEndPoint", $settings)) {
-            $settings["baseURL"] = $settings["cloudEndPoint"];
+        if (array_key_exists('cloudEndPoint', $settings)) {
+            $settings['baseURL'] = $settings['cloudEndPoint'];
         }
         
-        // Add cloudrequestEngine
         $cloud = new CloudRequestEngine($settings);
 
         $flowElements = [];
@@ -66,14 +78,13 @@ class DeviceDetectionPipelineBuilder extends PipelineBuilder
 
         $deviceDetection = new DeviceDetectionCloud();
 
-        if (isset($settings["restrictedProperties"])) {
-            $deviceDetection->setRestrictedProperties = $settings["restrictedProperties"];
+        if (isset($settings['restrictedProperties'])) {
+            $deviceDetection->setRestrictedProperties = $settings['restrictedProperties'];
         }
 
         $flowElements[] = $deviceDetection;
 
         // Add any extra flowElements
-        
         $flowElements = array_merge($flowElements, $this->flowElements);
                 
         $this->flowElements = $flowElements;
