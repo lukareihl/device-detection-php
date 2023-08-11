@@ -23,13 +23,12 @@
 
 namespace fiftyone\pipeline\devicedetection;
 
-use fiftyone\pipeline\core\PipelineBuilder;
 use fiftyone\pipeline\cloudrequestengine\CloudRequestEngine;
+use fiftyone\pipeline\core\PipelineBuilder;
 
 /**
-* Extension of pipelineBuilder class that allows for the quick generation of a device detection pipeline.
-*
-*/
+ * Extension of pipelineBuilder class that allows for the quick generation of a device detection pipeline.
+ */
 class DeviceDetectionPipelineBuilder extends PipelineBuilder
 {
     /**
@@ -69,7 +68,7 @@ class DeviceDetectionPipelineBuilder extends PipelineBuilder
         if (array_key_exists('cloudEndPoint', $settings)) {
             $settings['baseURL'] = $settings['cloudEndPoint'];
         }
-        
+
         $cloud = new CloudRequestEngine($settings);
 
         $flowElements = [];
@@ -86,7 +85,7 @@ class DeviceDetectionPipelineBuilder extends PipelineBuilder
 
         // Add any extra flowElements
         $flowElements = array_merge($flowElements, $this->flowElements);
-                
+
         $this->flowElements = $flowElements;
     }
-};
+}

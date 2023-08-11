@@ -20,7 +20,7 @@
  * in the end user terms of the application under an appropriate heading,
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
- 
+
 namespace fiftyone\pipeline\devicedetection;
 
 use fiftyone\pipeline\cloudrequestengine\CloudEngine;
