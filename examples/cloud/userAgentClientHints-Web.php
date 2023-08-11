@@ -32,17 +32,16 @@
  * This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-php/blob/master/examples/cloud/userAgentClientHints-Web.php).
  *
  * To run this example, you will need to create a **resource key**.
- * The resource key is used as short-hand to store the particular set of
+ * The resource key is used as shorthand to store the particular set of
  * properties you are interested in as well as any associated license keys
  * that entitle you to increased request limits and/or paid-for properties.
  * You can create a resource key using the 51Degrees [Configurator](https://configure.51degrees.com).
  * Make sure to include required User Agent Client Hints Set Header properties which are in the following format, to get full * client-hints functionality.
  * SetHeader[Component name][Response header name]
- 
  * Expected output:
  * ```
  * User Agent Client Hints Example
- * Select the Use User Agent Client Hints button below, to use User Agent Client Hint headers in evidence for device 
+ * Select the Use User Agent Client Hints button below, to use User Agent Client Hint headers in evidence for device
  * detections.
  * ...
  * Hardware Vendor: Unknown
@@ -55,7 +54,7 @@
 
 // First we include the deviceDetectionPipelineBuilder
 
-require(__DIR__ . "/../../vendor/autoload.php");
+require(__DIR__ . '/../../vendor/autoload.php');
 
 use fiftyone\pipeline\devicedetection\DeviceDetectionPipelineBuilder;
 use fiftyone\pipeline\core\Utils;
@@ -65,29 +64,27 @@ use fiftyone\pipeline\core\Utils;
 // Check if there is a resource key in the environment variable and use
 // it if there is one. You will need to switch this for your own resource key.
 
-if (isset($_ENV["RESOURCEKEY"])) {
-    $resourceKey = $_ENV["RESOURCEKEY"];
-} 
-else if (isset($_GET['RESOURCEKEY'])) {
+if (isset($_ENV['RESOURCEKEY'])) {
+    $resourceKey = $_ENV['RESOURCEKEY'];
+} elseif (isset($_GET['RESOURCEKEY'])) {
     $resourceKey = $_GET['RESOURCEKEY'];
-}
-else {
-    $resourceKey = "!!YOUR_RESOURCE_KEY!!";
+} else {
+    $resourceKey = '!!YOUR_RESOURCE_KEY!!';
 }
 
-if ($resourceKey === "!!YOUR_RESOURCE_KEY!!") {
-    echo "You need to create a resource key at " .
-        "https://configure.51degrees.com and paste it into the code, " .
-        "replacing !!YOUR_RESOURCE_KEY!!.";
+if ($resourceKey === '!!YOUR_RESOURCE_KEY!!') {
+    echo 'You need to create a resource key at ' .
+        'https://configure.51degrees.com and paste it into the code, ' .
+        'replacing !!YOUR_RESOURCE_KEY!!.';
     echo "\n<br/>";
-    echo "Make sure to include the required properties " .
+    echo 'Make sure to include the required properties ' .
         "used by this example.\n<br />";
     return;
 }
 
-$builder = new DeviceDetectionPipelineBuilder(array(
-    "resourceKey" => $resourceKey
-));
+$builder = new DeviceDetectionPipelineBuilder([
+    'resourceKey' => $resourceKey
+]);
 $pipeline = $builder->build();
 
 
@@ -111,7 +108,7 @@ $device = $flowData->device;
 Utils::setResponseHeader($flowData);
 
 // Generate the HTML
-echo "<h2>User Agent Client Hints Example</h2>";
+echo '<h2>User Agent Client Hints Example</h2>';
 
 echo "
 
@@ -155,15 +152,14 @@ echo "
     function redirect() {
         sessionStorage.reloadAfterPageLoad = true;
         window.location.reload(true);
-        }
+    }
 
     window.onload = function () { 
-        if ( sessionStorage.reloadAfterPageLoad ) {
-        document.getElementById('description').innerHTML = '<p>The information shown below is determined using <strong>User Agent Client Hints</strong> that was sent in the request to obtain additional evidence. If no additional information appears then it may indicate an external problem such as <strong>User Agent Client Hints</strong> being disabled in your browser.</p>';
-        sessionStorage.reloadAfterPageLoad = false;
-        }
-        else{
-        document.getElementById('description').innerHTML = '<p>The following values are determined by sever-side device detection on the first request.</p>';
+        if (sessionStorage.reloadAfterPageLoad) {
+            document.getElementById('description').innerHTML = '<p>The information shown below is determined using <strong>User Agent Client Hints</strong> that was sent in the request to obtain additional evidence. If no additional information appears then it may indicate an external problem such as <strong>User Agent Client Hints</strong> being disabled in your browser.</p>';
+            sessionStorage.reloadAfterPageLoad = false;
+        } else {
+            document.getElementById('description').innerHTML = '<p>The following values are determined by sever-side device detection on the first request.</p>';
         }
     }
 
@@ -177,30 +173,30 @@ echo "
             <th>Value</th>
         </tr>";
 
-$evidences = $pipeline->getElement("device")->filterEvidence($flowData);
-foreach( $evidences as $key => $value){
-	if(strpos($key, strtolower("header.sec-ch")) !== false 
-	    || strpos($key, strtolower("header.user-agent")) !== false){ 
-           echo"<tr><td>" . strVal($key) . "</td>";
-           echo "<td>" . strVal($value) . "</td></>";
-	}
+$evidences = $pipeline->getElement('device')->filterEvidence($flowData);
+foreach ($evidences as $key => $value) {
+    if (strpos($key, strtolower('header.sec-ch')) !== false
+        || strpos($key, strtolower('header.user-agent')) !== false) {
+        echo '<tr><td>' . strVal($key) . '</td>';
+        echo '<td>' . strVal($value) . '</td></>';
+    }
 }
 
-echo "</table>";
-echo "</div>";
+echo '</table>';
+echo '</div>';
 
-echo "<div id=description></div>";
-echo "</br><strong>Detection results:</strong></br>";
+echo '<div id=description></div>';
+echo '</br><strong>Detection results:</strong></br>';
 echo "<div id=\"content\">";
 echo "<p>\n";
 
-echo "    Hardware Vendor: " . ($device->hardwarevendor->hasValue ? $device->hardwarevendor->value : $device->hardwarevendor->noValueMessage) . "<br />\n";
-echo "    Hardware Name: " . ($device->hardwarename->hasValue ? implode(",", $device->hardwarename->value) : $device->hardwarename->noValueMessage) . "<br />\n";
-echo "    Device Type: " . ($device->devicetype->hasValue ? $device->devicetype->value : $device->devicetype->noValueMessage) . "<br />\n";
-echo "    Platform Vendor: " . ($device->platformvendor->hasValue ? $device->platformvendor->value : $device->platformvendor->noValueMessage) . "<br />\n";
-echo "    Platform Name: " . ($device->platformname->hasValue ? $device->platformname->value : $device->platformname->noValueMessage) . "<br />\n";
-echo "    Platform Version: " . ($device->platformversion->hasValue ? $device->platformversion->value : $device->platformversion->noValueMessage) . "<br />\n";
-echo "    Browser Vendor: " . ($device->browservendor->hasValue ? $device->browservendor->value : $device->browservendor->noValueMessage) . "<br />\n";
-echo "    Browser Name: " . ($device->browsername->hasValue ? $device->browsername->value : $device->browsername->noValueMessage) . "<br />\n";
-echo "    Browser Version: " . ($device->browserversion->hasValue ? $device->browserversion->value : $device->browserversion->noValueMessage) . "<br />\n";
+echo '    Hardware Vendor: ' . ($device->hardwarevendor->hasValue ? $device->hardwarevendor->value : $device->hardwarevendor->noValueMessage) . "<br />\n";
+echo '    Hardware Name: ' . ($device->hardwarename->hasValue ? implode(',', $device->hardwarename->value) : $device->hardwarename->noValueMessage) . "<br />\n";
+echo '    Device Type: ' . ($device->devicetype->hasValue ? $device->devicetype->value : $device->devicetype->noValueMessage) . "<br />\n";
+echo '    Platform Vendor: ' . ($device->platformvendor->hasValue ? $device->platformvendor->value : $device->platformvendor->noValueMessage) . "<br />\n";
+echo '    Platform Name: ' . ($device->platformname->hasValue ? $device->platformname->value : $device->platformname->noValueMessage) . "<br />\n";
+echo '    Platform Version: ' . ($device->platformversion->hasValue ? $device->platformversion->value : $device->platformversion->noValueMessage) . "<br />\n";
+echo '    Browser Vendor: ' . ($device->browservendor->hasValue ? $device->browservendor->value : $device->browservendor->noValueMessage) . "<br />\n";
+echo '    Browser Name: ' . ($device->browsername->hasValue ? $device->browsername->value : $device->browsername->noValueMessage) . "<br />\n";
+echo '    Browser Version: ' . ($device->browserversion->hasValue ? $device->browserversion->value : $device->browserversion->noValueMessage) . "<br />\n";
 

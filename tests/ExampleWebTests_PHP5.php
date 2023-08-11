@@ -30,11 +30,11 @@ use PHPUnit\Framework\TestCase;
 /**
  * @requires OS Linux
  */
-class ExampleWebTests extends TestCase
+class ExampleWebTests_PHP5 extends TestCase
 {
     public static $process;
 
-    public static function setUpBeforeClass(): void
+    public static function setUpBeforeClass()
     {
         // start server
         self::$process = new Process('php -S localhost:3000 examples/cloud/gettingStartedWeb.php');
@@ -47,7 +47,7 @@ class ExampleWebTests extends TestCase
         }
     }
 
-    public static function tearDownAfterClass(): void
+    public static function tearDownAfterClass()
     {
         // stop server
         if (self::$process->stop()) {

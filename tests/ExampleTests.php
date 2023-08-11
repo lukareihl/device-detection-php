@@ -21,71 +21,96 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-
-require(__DIR__ . "/../vendor/autoload.php");
-require(__DIR__ . "/../examples/cloud/gettingStartedConsole.php");
-require(__DIR__ . "/../examples/cloud/gettingStartedWeb.php");
-require(__DIR__ . "/../examples/cloud/tacLookupConsole.php");
-require(__DIR__ . "/../examples/cloud/nativeModelLookupConsole.php");
-require(__DIR__ . "/../examples/cloud/metadataConsole.php");
+namespace fiftyone\pipeline\devicedetection\tests;
 
 // Fake remote address for web integration
 
-$_SERVER["REMOTE_ADDR"] = "0.0.0.0";
-$_SERVER["REQUEST_URI"] = "http://localhost";
+$_SERVER['REMOTE_ADDR'] = '0.0.0.0';
+$_SERVER['REQUEST_URI'] = 'http://localhost';
 
-use PHPUnit\Framework\TestCase;
 use fiftyone\pipeline\core\Logger;
+use fiftyone\pipeline\devicedetection\examples\cloud\classes\ExampleUtils;
+use fiftyone\pipeline\devicedetection\examples\cloud\classes\GettingStartedConsole;
+use fiftyone\pipeline\devicedetection\examples\cloud\classes\MetaDataConsole;
+use fiftyone\pipeline\devicedetection\examples\cloud\classes\NativeModelLookupConsole;
+use fiftyone\pipeline\devicedetection\examples\cloud\classes\TacLookupConsole;
+use PHPUnit\Framework\TestCase;
 
 class ExampleTests extends TestCase
 {
-    private function getResourceKey() {
-
-        $resourceKey = $_ENV["RESOURCEKEY"];
-
-        if ($resourceKey === "!!YOUR_RESOURCE_KEY!!") {
-            $this->fail("You need to create a resource key at " .
-            "https://configure.51degrees.com and paste it into the " .
-            "phpunit.xml config file, " .
-            "replacing !!YOUR_RESOURCE_KEY!!.");
-        }
-
-        return $resourceKey;
-    }
-
     public function testGettingStartedConsole()
     {
-        $logger = new Logger("info");
-        $config = json_decode(file_get_contents(__DIR__."/../examples/cloud/gettingStartedConsole.json"), true);
+        $logger = new Logger('info');
+        $json = file_get_contents(__DIR__ . '/../examples/cloud/gettingStartedConsole.json');
+        $config = json_decode($json, true);
         ExampleUtils::setResourceKeyInConfig($config, $this->getResourceKey());
-        $output = array();
-        (new GettingStartedConsole())->run($config, $logger, function($str) use (&$output) { $output[] = $str; });
-        $this->assertTrue(count($output) > 0);
+        $output = [];
+        (new GettingStartedConsole())->run(
+            $config,
+            $logger,
+            function ($str) use (&$output) {
+                $output[] = $str;
+            }
+        );
+        $this->assertNotEmpty($output);
     }
 
     public function testTacLookupConsole()
     {
-        $logger = new Logger("info");
-        $config = json_decode(file_get_contents(__DIR__."/../examples/cloud/tacLookupConsole.json"), true);
+        $logger = new Logger('info');
+        $json = file_get_contents(__DIR__ . '/../examples/cloud/tacLookupConsole.json');
+        $config = json_decode($json, true);
         ExampleUtils::setResourceKeyInConfig($config, $this->getResourceKey());
-        $output = array();
-        (new TacLookupConsole())->run($config, $logger, function($str) use (&$output) { $output[] = $str; });
-        $this->assertTrue(count($output) > 0);
+        $output = [];
+        (new TacLookupConsole())->run(
+            $config,
+            $logger,
+            function ($str) use (&$output) {
+                $output[] = $str;
+            }
+        );
+        $this->assertNotEmpty($output);
     }
 
     public function testNativeModelLookupConsole()
     {
-        $logger = new Logger("info");
-        $output = array();
-        (new NativeModelLookupConsole())->run($this->getResourceKey(), $logger, function($str) use (&$output) { $output[] = $str; });
-        $this->assertTrue(count($output) > 0);
+        $logger = new Logger('info');
+        $output = [];
+        (new NativeModelLookupConsole())->run(
+            $this->getResourceKey(),
+            $logger,
+            function ($str) use (&$output) {
+                $output[] = $str;
+            }
+        );
+        $this->assertNotEmpty($output);
     }
 
     public function testMetadataConsole()
     {
-        $logger = new Logger("info");
-        $output = array();
-        (new MetaDataConsole())->run($this->getResourceKey(), $logger, function($str) use (&$output) { $output[] = $str; });
-        $this->assertTrue(count($output) > 0);
+        $logger = new Logger('info');
+        $output = [];
+        (new MetaDataConsole())->run(
+            $this->getResourceKey(),
+            $logger,
+            function ($str) use (&$output) {
+                $output[] = $str;
+            }
+        );
+        $this->assertNotEmpty($output);
+    }
+
+    private function getResourceKey()
+    {
+        $resourceKey = $_ENV['RESOURCEKEY'];
+
+        if ($resourceKey === '!!YOUR_RESOURCE_KEY!!') {
+            $this->fail('You need to create a resource key at ' .
+            'https://configure.51degrees.com and paste it into the ' .
+            'phpunit.xml config file, ' .
+            'replacing !!YOUR_RESOURCE_KEY!!.');
+        }
+
+        return $resourceKey;
     }
 }

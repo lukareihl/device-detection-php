@@ -23,7 +23,12 @@
 ?>
 <head>
     <title>Web Integration Example</title>
-    <style><?php require(__DIR__."/main.css"); ?></style>
+    <style>
+        <?php
+        use fiftyone\pipeline\devicedetection\examples\cloud\classes\ExampleUtils;
+        require(__DIR__ . '/main.css');
+        ?>
+    </style>
 </head>
 
 <div class="main">
@@ -75,12 +80,11 @@
                     <th>Value</th>
                 </tr>
                 <?php
-                    foreach (headers_list() as $header)
-                    {
-                        $parts = explode(": ", $header);
+                    foreach (headers_list() as $header) {
+                        $parts = explode(': ', $header);
                         $output("<tr class='lightyellow'>");
-                        $output("<td><b>".$parts[0]."</b></td>");
-                        $output("<td>".$parts[1]."</td>");
+                        $output('<td><b>' .$parts[0]. '</b></td>');
+                        $output('<td>' .$parts[1]. '</td>');
                     }
                 ?>
             </table>
@@ -106,19 +110,15 @@
                     <th>Value</th>
                 </tr>
                 <?php
-                    foreach ($flowdata->evidence->getAll() as $key => $value)
-                    {
-                        if ($flowdata->pipeline->getElement("cloud")->getEvidenceKeyFilter()->filterEvidenceKey($key))
-                        {
+                    foreach ($flowdata->evidence->getAll() as $key => $value) {
+                        if ($flowdata->pipeline->getElement('cloud')->getEvidenceKeyFilter()->filterEvidenceKey($key)) {
                             $output("<tr class='lightgreen'>");
-                        }
-                        else
-                        {
+                        } else {
                             $output("<tr class='lightyellow'>");
                         }
-                        $output("<td><b>".$key."</b></td>");
-                        $output("<td>".$value."</td>");
-                        $output("</tr>");
+                        $output('<td><b>' .$key. '</b></td>');
+                        $output('<td>' .$value. '</td>');
+                        $output('</tr>');
                     }
                 ?>
             </table>
