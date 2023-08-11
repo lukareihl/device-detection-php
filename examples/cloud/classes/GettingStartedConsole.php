@@ -40,6 +40,28 @@ use fiftyone\pipeline\core\PipelineBuilder;
 
 class GettingStartedConsole
 {
+    // This collection contains the various input values that will
+    // be passed to the device detection algorithm.
+    private $evidenceValues = [
+        // A User-Agent from a mobile device.
+        [
+            'header.user-agent' => 'Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G960U) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/10.1 Chrome/71.0.3578.99 Mobile Safari/537.36'
+        ],
+        // A User-Agent from a desktop device.
+        [
+            'header.user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
+        ],
+        // Evidence values from a windows 11 device using a browser
+        // that supports User-Agent Client Hints.
+        [
+            'header.user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36',
+            'header.sec-ch-ua-mobile' => '?0',
+            'header.sec-ch-ua' => "\" Not A; Brand\";v=\"99\", \"Chromium\";v=\"98\", \"Google Chrome\";v=\"98\"",
+            'header.sec-ch-ua-platform' => "\"Windows\"",
+            'header.sec-ch-ua-platform-version' => "\"14.0.0\""
+        ]
+    ];
+
     public function run($config, $logger, callable $output)
     {
         // In this example, we use the PipelineBuilder and configure it from a file.
@@ -118,26 +140,4 @@ class GettingStartedConsole
             $message[] = "\t$name: $value->noValueMessage";
         }
     }
-
-    // This collection contains the various input values that will
-    // be passed to the device detection algorithm.
-    private $evidenceValues = [
-        // A User-Agent from a mobile device.
-        [
-            'header.user-agent' => 'Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G960U) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/10.1 Chrome/71.0.3578.99 Mobile Safari/537.36'
-        ],
-        // A User-Agent from a desktop device.
-        [
-            'header.user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
-        ],
-        // Evidence values from a windows 11 device using a browser
-        // that supports User-Agent Client Hints.
-        [
-            'header.user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36',
-            'header.sec-ch-ua-mobile' => '?0',
-            'header.sec-ch-ua' => "\" Not A; Brand\";v=\"99\", \"Chromium\";v=\"98\", \"Google Chrome\";v=\"98\"",
-            'header.sec-ch-ua-platform' => "\"Windows\"",
-            'header.sec-ch-ua-platform-version' => "\"14.0.0\""
-        ]
-    ];
 }
