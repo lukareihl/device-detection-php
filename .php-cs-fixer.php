@@ -1,8 +1,6 @@
 <?php
 
-$config = new PhpCsFixer\Config();
-
-return $config
+return (new PhpCsFixer\Config())
     ->setRules([
         '@PER' => true,
         '@PSR12' => true,
