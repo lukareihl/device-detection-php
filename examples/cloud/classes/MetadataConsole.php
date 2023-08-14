@@ -49,6 +49,7 @@
 
 namespace fiftyone\pipeline\devicedetection\examples\cloud\classes;
 
+use fiftyone\pipeline\core\BasicListEvidenceKeyFilter;
 use fiftyone\pipeline\devicedetection\DeviceDetectionPipelineBuilder;
 
 class MetadataConsole
@@ -88,7 +89,7 @@ class MetadataConsole
     private function outputEvidenceKeyDetails($engine, callable $output)
     {
         $output('');
-        if (is_a($engine->getEvidenceKeyFilter(), "fiftyone\\pipeline\\core\\BasicListEvidenceKeyFilter")) {
+        if ($engine->getEvidenceKeyFilter() instanceof BasicListEvidenceKeyFilter) {
             // If the evidence key filter extends BasicListEvidenceKeyFilter then we can
             // display a list of accepted keys.
             $filter = $engine->getEvidenceKeyFilter();

@@ -23,6 +23,8 @@
 
 namespace fiftyone\pipeline\devicedetection\examples\cloud\classes;
 
+use fiftyone\pipeline\engines\AspectDataDictionary;
+
 class ExampleUtils
 {
     // The default environment variable used to get the resource key 
@@ -87,7 +89,7 @@ class ExampleUtils
     public static function getHumanReadable($device, $name)
     {
         try {
-            if (is_a($device, "fiftyone\\pipeline\\engines\\AspectDataDictionary")) {
+            if ($device instanceof AspectDataDictionary) {
                 $value = $device->$name;
             } else {
                 $value = $device[$name];
