@@ -23,6 +23,7 @@
 
 namespace fiftyone\pipeline\devicedetection\tests;
 
+use fiftyone\pipeline\core\tests\classes\HeaderParser;
 use fiftyone\pipeline\devicedetection\tests\classes\Constants;
 use fiftyone\pipeline\devicedetection\tests\classes\Process;
 use PHPUnit\Framework\TestCase;
@@ -67,31 +68,8 @@ class ExampleWebTests extends TestCase
         ]);
 
         $data = @file_get_contents(Constants::URL, false, $context);
-        $responseHeaders = self::parseHeaders($http_response_header);
+        $responseHeaders = HeaderParser::parse($http_response_header);
 
         $this->assertEquals(200, $responseHeaders['response_code']);
-    }
-
-    /**
-     * Converts response headers string to an indexed array.
-     *
-     * @param mixed $headers
-     */
-    private static function parseHeaders($headers)
-    {
-        $head = [];
-        foreach ($headers as $header) {
-            $t = explode(':', $header, 2);
-            if (isset($t[1])) {
-                $head[trim($t[0])] = trim($t[1]);
-            } else {
-                $head[] = $header;
-                if (preg_match('#HTTP/[0-9\\.]+\\s+([0-9]+)#', $header, $out)) {
-                    $head['response_code'] = intval($out[1]);
-                }
-            }
-        }
-
-        return $head;
     }
 }

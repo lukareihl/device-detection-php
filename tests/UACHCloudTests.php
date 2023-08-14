@@ -23,6 +23,7 @@
 
 namespace fiftyone\pipeline\devicedetection\tests;
 
+use fiftyone\pipeline\core\tests\classes\HeaderParser;
 use fiftyone\pipeline\devicedetection\tests\classes\Constants;
 use fiftyone\pipeline\devicedetection\tests\classes\Process;
 use PHPUnit\Framework\TestCase;
@@ -32,6 +33,9 @@ use PHPUnit\Framework\TestCase;
  */
 class UACHCloudTests extends TestCase
 {
+    /**
+     * @var \fiftyone\pipeline\devicedetection\tests\classes\Process
+     */
     public static $process;
 
     public static function setUpBeforeClass(): void
@@ -55,7 +59,9 @@ class UACHCloudTests extends TestCase
         }
     }
 
-    // Data Provider for testAcceptCH
+    /**
+     * Data Provider for testAcceptCH
+     */
     public static function provider_testAcceptCH()
     {
         $superKey = self::getEnvVar(Constants::RESOURCE_ENV_VAR);
@@ -97,11 +103,10 @@ class UACHCloudTests extends TestCase
         return $testParameters;
     }
 
-    // Tests response header value to set in Accept-CH
-    // response header.
     /**
+     * Tests response header value to set in Accept-CH response header.
+     *
      * @dataProvider provider_testAcceptCH
-     * @requires PHP >= 7.2
      */
     public function testAcceptCH($userAgent, $resourceKey, $expectedValue)
     {
@@ -115,7 +120,7 @@ class UACHCloudTests extends TestCase
         ]);
 
         $data = @file_get_contents(Constants::URL . '?RESOURCEKEY=' . $resourceKey, false, $context);
-        $responseHeaders = self::parseHeaders($http_response_header);
+        $responseHeaders = HeaderParser::parse($http_response_header);
 
         $this->assertEquals(200, $responseHeaders['response_code']);
 
@@ -138,6 +143,8 @@ class UACHCloudTests extends TestCase
 
     /**
      * Gets environment variable value.
+     *
+     * @param string $name
      */
     private static function getEnvVar($name)
     {
@@ -147,26 +154,5 @@ class UACHCloudTests extends TestCase
         }
 
         return $resourceKey;
-    }
-
-    /**
-     * Converts response headers string to an indexed array.
-     */
-    private static function parseHeaders($headers)
-    {
-        $head = [];
-        foreach ($headers as $header) {
-            $t = explode(':', $header, 2);
-            if (isset($t[1])) {
-                $head[trim($t[0])] = trim($t[1]);
-            } else {
-                $head[] = $header;
-                if (preg_match('#HTTP/[0-9\\.]+\\s+([0-9]+)#', $header, $out)) {
-                    $head['response_code'] = intval($out[1]);
-                }
-            }
-        }
-
-        return $head;
     }
 }
