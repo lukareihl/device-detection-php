@@ -74,6 +74,7 @@
  *
  * ## Class
  */
+
 require_once(__DIR__ . '/../../vendor/autoload.php');
 
 use fiftyone\pipeline\devicedetection\examples\cloud\classes\ExampleUtils;

@@ -81,7 +81,7 @@ if (basename(__FILE__) == basename($_SERVER['SCRIPT_FILENAME'])) {
         (new NativeModelLookupConsole())->run(
             $resourceKey,
             $logger,
-            ['ExampleUtils', 'output']
+            [ExampleUtils::class, 'output']
         );
     }
 

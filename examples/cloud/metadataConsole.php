@@ -86,7 +86,7 @@ if (basename(__FILE__) == basename($_SERVER['SCRIPT_FILENAME'])) {
         (new MetadataConsole())->run(
             $resourceKey,
             $logger,
-            ['ExampleUtils', 'output']
+            [ExampleUtils::class, 'output']
         );
     }
 
