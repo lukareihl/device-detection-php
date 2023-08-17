@@ -30,6 +30,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @requires OS Linux
+ * @internal
+ * @coversNothing
  */
 class ExampleWebTests_PHP5 extends TestCase
 {

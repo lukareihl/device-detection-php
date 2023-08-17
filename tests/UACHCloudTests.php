@@ -60,7 +60,7 @@ class UACHCloudTests extends TestCase
     }
 
     /**
-     * Data Provider for testAcceptCH
+     * Data Provider for testAcceptCH.
      */
     public static function provider_testAcceptCH()
     {

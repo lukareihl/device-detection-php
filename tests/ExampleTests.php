@@ -24,7 +24,6 @@
 namespace fiftyone\pipeline\devicedetection\tests;
 
 // Fake remote address for web integration
-
 $_SERVER['REMOTE_ADDR'] = '0.0.0.0';
 $_SERVER['REQUEST_URI'] = 'http://localhost';
 
@@ -40,11 +39,13 @@ class ExampleTests extends TestCase
 {
     public function testGettingStartedConsole()
     {
-        $logger = new Logger('info');
         $json = file_get_contents(__DIR__ . '/../examples/cloud/gettingStartedConsole.json');
         $config = json_decode($json, true);
         ExampleUtils::setResourceKeyInConfig($config, $this->getResourceKey());
+
+        $logger = new Logger('info');
         $output = [];
+
         (new GettingStartedConsole())->run(
             $config,
             $logger,
@@ -52,16 +53,19 @@ class ExampleTests extends TestCase
                 $output[] = $str;
             }
         );
+
         $this->assertNotEmpty($output);
     }
 
     public function testTacLookupConsole()
     {
-        $logger = new Logger('info');
         $json = file_get_contents(__DIR__ . '/../examples/cloud/tacLookupConsole.json');
         $config = json_decode($json, true);
         ExampleUtils::setResourceKeyInConfig($config, $this->getResourceKey());
+
+        $logger = new Logger('info');
         $output = [];
+
         (new TacLookupConsole())->run(
             $config,
             $logger,
@@ -69,6 +73,7 @@ class ExampleTests extends TestCase
                 $output[] = $str;
             }
         );
+
         $this->assertNotEmpty($output);
     }
 
@@ -76,6 +81,7 @@ class ExampleTests extends TestCase
     {
         $logger = new Logger('info');
         $output = [];
+
         (new NativeModelLookupConsole())->run(
             $this->getResourceKey(),
             $logger,
@@ -83,6 +89,7 @@ class ExampleTests extends TestCase
                 $output[] = $str;
             }
         );
+
         $this->assertNotEmpty($output);
     }
 
@@ -90,6 +97,7 @@ class ExampleTests extends TestCase
     {
         $logger = new Logger('info');
         $output = [];
+
         (new MetaDataConsole())->run(
             $this->getResourceKey(),
             $logger,
@@ -97,6 +105,7 @@ class ExampleTests extends TestCase
                 $output[] = $str;
             }
         );
+
         $this->assertNotEmpty($output);
     }
 

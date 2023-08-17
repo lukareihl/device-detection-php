@@ -34,12 +34,12 @@ class Process
     private $pid;
 
     /**
-     * @var null|string|array<string|mixed>
+     * @var null|array<mixed|string>|string
      */
     private $command;
 
     /**
-     * @param null|string|array<string|mixed> $command
+     * @param null|array<mixed|string>|string $command
      */
     public function __construct($command = null)
     {

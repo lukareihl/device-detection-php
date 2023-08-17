@@ -24,7 +24,6 @@
 namespace fiftyone\pipeline\devicedetection\tests;
 
 // Fake remote address for web integration
-
 $_SERVER['REMOTE_ADDR'] = '0.0.0.0';
 
 use fiftyone\pipeline\devicedetection\DeviceDetectionPipelineBuilder;
@@ -77,7 +76,6 @@ class DeviceDetectionTests extends TestCase
                         }
 
                         break;
-
                     case 'String':
                         if (method_exists($this, 'assertInternalType')) {
                             $this->assertInternalType('string', $value, $key);
@@ -86,7 +84,6 @@ class DeviceDetectionTests extends TestCase
                         }
 
                         break;
-
                     case 'JavaScript':
                         if (method_exists($this, 'assertInternalType')) {
                             $this->assertInternalType('string', $value, $key);
@@ -95,7 +92,6 @@ class DeviceDetectionTests extends TestCase
                         }
 
                         break;
-
                     case 'Int32':
                         if (method_exists($this, 'assertInternalType')) {
                             $this->assertInternalType('integer', $value, $key);
@@ -104,7 +100,6 @@ class DeviceDetectionTests extends TestCase
                         }
 
                         break;
-
                     case 'Double':
                         if (method_exists($this, 'assertInternalType')) {
                             $this->assertInternalType('double', $value, $key);
@@ -113,7 +108,6 @@ class DeviceDetectionTests extends TestCase
                         }
 
                         break;
-
                     case 'Array':
                         if (method_exists($this, 'assertInternalType')) {
                             $this->assertInternalType('array', $value, $key);
@@ -122,7 +116,6 @@ class DeviceDetectionTests extends TestCase
                         }
 
                         break;
-
                     default:
                         $this->fail('expected type for ' . $key . ' was ' . $expectedType);
                 }
