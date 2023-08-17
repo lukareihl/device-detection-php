@@ -32,7 +32,7 @@ use fiftyone\pipeline\core\PipelineBuilder;
 class DeviceDetectionPipelineBuilder extends PipelineBuilder
 {
     /**
-     * @var array
+     * @var array<mixed>
      */
     public $restrictedProperties;
 

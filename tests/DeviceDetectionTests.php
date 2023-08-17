@@ -249,8 +249,6 @@ class DeviceDetectionTests extends TestCase
      * of this test.
      *
      * @dataProvider providerCloudRequestOriginTestData
-     * @param mixed $origin
-     * @param mixed $expectException
      */
     public function testCloudRequestOrigin($origin, $expectException)
     {
