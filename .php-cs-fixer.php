@@ -21,6 +21,14 @@ return (new PhpCsFixer\Config())
         'operator_linebreak' => [
             'position' => 'end',
             'only_booleans' => true
+        ],
+        'blank_line_before_statement' => [
+            'statements' => [
+                'return',
+                'throw',
+                'try',
+                'declare'
+            ]
         ]
     ])
     ->setFinder(PhpCsFixer\Finder::create()
